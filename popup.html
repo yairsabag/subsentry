@@ -1,19 +1,58 @@
 <!DOCTYPE html>
-<html dir="ltr">
+<html>
 <head>
     <meta charset="UTF-8">
     <style>
-        body { width: 320px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; margin: 0; }
-        h2 { color: #4F46E5; font-size: 18px; margin-top: 0; }
-        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
-        .total { margin-top: 20px; font-weight: bold; font-size: 16px; border-top: 2px solid #4F46E5; padding-top: 10px; }
-        .empty { color: #9ca3af; text-align: center; margin-top: 30px; }
+        body { width: 350px; font-family: sans-serif; padding: 15px; background: #f9fafb; }
+        .header { display: flex; justify-content: space-between; align-items: center; }
+        h2 { color: #4F46E5; font-size: 18px; margin: 0; }
+        #addBtn { background: #4F46E5; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 18px; }
+        
+        /* עיצוב הטופס הידני */
+        #manualForm { display: none; margin-top: 15px; background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
+        #manualForm input { width: 90%; padding: 8px; margin-bottom: 8px; border: 1px solid #ddd; border-radius: 4px; }
+        
+        /* עיצוב רשימת המנויים */
+        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 8px; margin-top: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
+        .total { margin-top: 15px; font-weight: bold; border-top: 2px solid #4F46E5; padding-top: 10px; color: #111; }
+        
+        /* כפתורי פעולה */
+        .btn-small { border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; }
+        
+        /* כפתור ה-Dashboard החדש */
+        #openDashboard { 
+            width: 100%; 
+            background: white; 
+            color: #4F46E5; 
+            border: 1px solid #4F46E5; 
+            padding: 10px; 
+            border-radius: 8px; 
+            margin-top: 12px; 
+            cursor: pointer; 
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        #openDashboard:hover { background: #f5f3ff; }
     </style>
 </head>
 <body>
-    <h2>My Subscriptions</h2>
+    <div class="header">
+        <h2>🛡️ SubSentry</h2>
+        <button id="addBtn">+</button>
+    </div>
+
+    <div id="manualForm">
+        <input type="text" id="nameIn" placeholder="Service Name (e.g. Netflix)">
+        <input type="text" id="priceIn" placeholder="Price (e.g. $14.99)">
+        <input type="number" id="trialIn" placeholder="Trial days? (Optional)">
+        <button id="saveManual" style="width:100%; background:#059669; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">Save Subscription</button>
+    </div>
+
     <div id="subList"></div>
-    <div class="total" id="totalAmount"></div>
+    <div class="total" id="totalAmount">Total: $0.00/mo</div>
+
+    <button id="openDashboard">📊 Open Full Dashboard</button>
+
     <script src="popup.js"></script>
 </body>
 </html>

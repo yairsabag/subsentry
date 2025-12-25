@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>SubSentry Dashboard</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f3f4f6; margin: 0; padding: 40px; color: #1f2937; }
+        .container { max-width: 900px; margin: 0 auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        h1 { color: #4F46E5; margin: 0; }
+        
+        /* Stats Cards */
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        .card-label { color: #6b7280; font-size: 14px; margin-bottom: 5px; }
+        .card-value { font-size: 28px; font-weight: bold; color: #111827; }
+
+        /* Table Styling */
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05); }
+        th { background-color: #f9fafb; text-align: left; padding: 15px; border-bottom: 1px solid #e5e7eb; color: #4b5563; }
+        td { padding: 15px; border-bottom: 1px solid #f3f4f6; }
+        tr:hover { background-color: #f9fafb; }
+        
+        .badge { padding: 4px 8px; border-radius: 9999px; font-size: 12px; font-weight: 500; }
+        .badge-trial { background-color: #fef3c7; color: #92400e; }
+        .btn-delete { color: #ef4444; border: none; background: none; cursor: pointer; font-weight: 600; }
+        .btn-link { color: #4F46E5; text-decoration: none; font-weight: 600; margin-right: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🛡️ SubSentry Dashboard</h1>
+            <div id="current-date"></div>
+        </div>
+
+        <div class="stats-grid">
+            <div class="card">
+                <div class="card-label">Monthly Spending</div>
+                <div class="card-value" id="total-spend">$0.00</div>
+            </div>
+            <div class="card">
+                <div class="card-label">Active Subscriptions</div>
+                <div class="card-value" id="active-subs">0</div>
+            </div>
+        </div>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Service</th>
+                    <th>Price</th>
+                    <th>Trial Info</th>
+                    <th>Added On</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="subs-table-body">
+                </tbody>
+        </table>
+    </div>
+    <script src="dashboard.js"></script>
+</body>
+</html>
