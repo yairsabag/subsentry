@@ -1,20 +1,19 @@
 <!DOCTYPE html>
-<html dir="rtl">
+<html dir="ltr">
 <head>
     <meta charset="UTF-8">
     <style>
-        body { width: 300px; font-family: sans-serif; padding: 15px; margin: 0; }
-        h2 { color: #4F46E5; font-size: 18px; margin-bottom: 10px; }
-        .sub-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
-        .total { margin-top: 15px; font-weight: bold; font-size: 16px; color: #111; }
-        .empty { color: #999; font-size: 13px; text-align: center; margin-top: 20px; }
+        body { width: 320px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 15px; margin: 0; }
+        h2 { color: #4F46E5; font-size: 18px; margin-top: 0; }
+        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #f3f4f6; }
+        .total { margin-top: 20px; font-weight: bold; font-size: 16px; border-top: 2px solid #4F46E5; padding-top: 10px; }
+        .empty { color: #9ca3af; text-align: center; margin-top: 30px; }
     </style>
 </head>
 <body>
-    <h2>SubSentry - המנויים שלי</h2>
+    <h2>My Subscriptions</h2>
     <div id="subList"></div>
     <div class="total" id="totalAmount"></div>
-    
     <script src="popup.js"></script>
 </body>
 </html>

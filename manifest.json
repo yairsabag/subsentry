@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "SubSentry - Subscription Protector",
-  "version": "1.0",
-  "description": "Detects and tracks your subscriptions automatically.",
+  "name": "SubSentry - Subscription Tracker",
+  "version": "1.1",
+  "description": "Automatically detect, track, and manage your online subscriptions.",
   "permissions": ["storage", "activeTab"],
   "content_scripts": [
     {
