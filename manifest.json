@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "SubSentry",
   "version": "1.5",
-  "description": "Track your subscriptions and trials automatically.",
+  "description": "Smart subscription and trial tracker for your browser.",
   "permissions": ["storage", "alarms", "notifications"],
   "icons": {
     "16": "icon.png",
@@ -24,7 +24,7 @@
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icon.png"],
+      "resources": ["icon.png", "manual.png"],
       "matches": ["<all_urls>"]
     }
   ]

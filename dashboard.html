@@ -7,73 +7,87 @@
         :root { --bg-color: #0f172a; --sidebar-color: #1e293b; --card-bg: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8; --accent-purple: #8b5cf6; --accent-teal: #06b6d4; --accent-pink: #d946ef; }
         body { font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; display: flex; height: 100vh; overflow: hidden; }
         .sidebar { width: 260px; background: var(--sidebar-color); padding: 30px 20px; display: flex; flex-direction: column; gap: 15px; border-right: 1px solid #334155; }
-        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 30px; padding-left: 10px; }
-        .logo-area img { width: 35px; height: 35px; border-radius: 10px; background: #334155; padding: 2px; box-shadow: 0 0 15px rgba(139, 92, 246, 0.3); }
-        .logo-area h2 { color: var(--text-main); margin: 0; font-size: 22px; font-weight: 800; }
-        .nav-item { padding: 12px 15px; border-radius: 12px; cursor: pointer; color: var(--text-muted); font-weight: 600; display: flex; align-items: center; gap: 12px; border: none; background: none; width: 100%; text-align: left; transition: 0.3s; }
+        .logo-area { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+        .logo-area img { width: 35px; height: 35px; border-radius: 10px; background: #334155; padding: 2px; }
+        .nav-item { padding: 12px 15px; border-radius: 12px; cursor: pointer; color: var(--text-muted); font-weight: 600; border: none; background: none; width: 100%; text-align: left; transition: 0.3s; }
         .nav-item.active { background: var(--accent-purple); color: white; }
-        .nav-item:hover:not(.active) { background: #334155; color: white; }
+        .settings-group { margin-top: 20px; padding: 15px; background: rgba(15, 23, 42, 0.4); border-radius: 12px; }
+        .settings-label { font-size: 10px; color: var(--text-muted); text-transform: uppercase; display: block; margin-bottom: 8px; }
+        .currency-select { background: #0f172a; border: 1px solid #334155; color: white; padding: 8px; border-radius: 8px; width: 100%; cursor: pointer; outline: none; }
         .main-content { flex: 1; padding: 40px; overflow-y: auto; background: radial-gradient(circle at top right, #1e1b4b, transparent); scroll-behavior: smooth; }
-        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 25px; }
-        .card { background: var(--card-bg); border-radius: 24px; padding: 25px; border: 1px solid #334155; transition: 0.4s; }
-        .card:hover { border-color: var(--accent-purple); transform: translateY(-5px); }
-        .stat-card .value { font-size: 34px; font-weight: 800; margin-top: 10px; display: block; }
-        .chart-container { grid-column: span 2; min-height: 320px; }
+        .grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+        .card { background: var(--card-bg); border-radius: 24px; padding: 25px; border: 1px solid #334155; }
+        .stat-card .value { font-size: 32px; font-weight: 800; margin-top: 10px; display: block; }
+        .chart-main { grid-column: span 3; min-height: 350px; }
+        .chart-side { grid-column: span 1; min-height: 350px; }
         .wide-card { grid-column: span 4; }
-        
-        /* Table and Add Row Styles */
-        .add-sub-row { display: flex; gap: 12px; margin-bottom: 25px; background: rgba(15, 23, 42, 0.5); padding: 15px; border-radius: 16px; border: 1px solid #334155; }
-        .add-sub-row input { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 10px; color: white; font-size: 14px; flex: 1; outline: none; transition: 0.3s; }
-        .add-sub-row input:focus { border-color: var(--accent-purple); }
-        
+        .add-sub-row { display: flex; gap: 10px; margin-bottom: 20px; }
+        .add-sub-row input, .add-sub-row select { background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 12px; color: white; flex: 1; outline: none; }
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; padding: 15px; color: var(--text-muted); font-size: 11px; text-transform: uppercase; border-bottom: 1px solid #334155; }
-        td { padding: 18px 15px; border-bottom: 1px solid #334155; font-size: 14px; }
-        .btn-export { background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: 0.3s; }
-        .btn-export:hover { transform: scale(1.02); opacity: 0.9; }
-        .del-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-weight: 600; }
+        td { padding: 15px; border-bottom: 1px solid #334155; font-size: 14px; vertical-align: middle; }
+        .btn-add { background: linear-gradient(135deg, var(--accent-purple), var(--accent-pink)); color: white; border: none; padding: 0 25px; border-radius: 12px; font-weight: 700; cursor: pointer; }
+        .export-btn { margin-top: auto; background: rgba(51, 65, 85, 0.5); color: white; border: 1px solid #475569; padding: 12px; border-radius: 12px; cursor: pointer; }
+        .del-btn { color: #ef4444; background: none; border: none; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .edit-btn { color: var(--accent-teal); background: none; border: none; cursor: pointer; font-weight: 600; font-size: 13px; margin-right: 8px; }
+        .deal-btn { color: var(--accent-pink); background: none; border: none; cursor: pointer; font-weight: 600; font-size: 13px; margin-right: 8px; }
+        .cat-badge { background: #334155; padding: 4px 10px; border-radius: 6px; font-size: 12px; color: #cbd5e1; }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <div class="logo-area">
-            <img src="icon.png" alt="Logo">
-            <h2>SubSentry</h2>
-        </div>
+        <div class="logo-area"><img src="icon.png"><h2>SubSentry</h2></div>
         <button class="nav-item active" id="nav-analytics">📊 Analytics</button>
         <button class="nav-item" id="nav-list">📋 Subscriptions</button>
-        <div style="margin-top: auto;">
-            <button id="exportBtn" class="btn-export">📥 Export Report</button>
+        <div class="settings-group">
+            <span class="settings-label">Primary Currency</span>
+            <select id="baseCurrency" class="currency-select">
+                <option value="$">USD ($)</option>
+                <option value="€">EUR (€)</option>
+                <option value="£">GBR (£)</option>
+                <option value="¥">JPY (¥)</option>
+                <option value="₪">NIS (₪)</option>
+            </select>
         </div>
+        <button id="exportBtn" class="export-btn">📥 Export CSV Report</button>
     </div>
     <div class="main-content" id="scroll-area">
-        <div class="header" style="display:flex; justify-content:space-between; align-items:center; margin-bottom:35px;">
-            <div><h1 style="margin:0;">Pro Dashboard</h1><p style="color: var(--text-muted); margin: 5px 0 0 0;">Visual intelligence for your recurring expenses.</p></div>
-            <div id="current-date" style="font-weight: 700; color: var(--accent-teal);"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:30px;">
+            <div><h1 style="margin:0;">Pro Dashboard</h1><p style="color:var(--text-muted);">Visualized Recurring Expenses</p></div>
+            <div id="current-date" style="font-weight:700; color:var(--accent-teal);"></div>
         </div>
         <div class="grid">
-            <div class="card stat-card"><span style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Monthly Total</span><span class="value" id="total-spend">$0.00</span></div>
-            <div class="card stat-card"><span style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Active Subs</span><span class="value" id="active-subs">0</span></div>
-            <div class="card stat-card"><span style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Annual Estimate</span><span class="value" id="annual-spend">$0.00</span></div>
-            <div class="card stat-card"><span style="font-size:12px; color:var(--text-muted); text-transform:uppercase;">Top Category</span><span class="value" style="color:var(--accent-pink)">Software</span></div>
-            <div class="card chart-container wide-card"><canvas id="mainChart"></canvas></div>
-            <div class="card chart-container"><canvas id="distChart"></canvas></div>
-            <div class="card chart-container"><canvas id="barChart"></canvas></div>
-            
-            <div class="card wide-card" id="subscriptions-list-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
-                    <span style="font-size:12px; color:var(--text-muted); text-transform:uppercase; font-weight:700;">Manage Subscriptions</span>
-                </div>
-                
-                <div class="add-sub-row">
-                    <input type="text" id="dashNameIn" placeholder="Service (e.g. Netflix)">
-                    <input type="text" id="dashPriceIn" placeholder="Price (e.g. $14.99)">
-                    <input type="number" id="dashTrialIn" placeholder="Trial days">
-                    <button id="dashSaveBtn" class="btn-export" style="padding: 10px 20px;">+ Add Sub</button>
-                </div>
+            <div class="card stat-card"><span style="font-size:11px; color:var(--text-muted);">MONTHLY TOTAL</span><span class="value" id="total-spend">₪0.00</span></div>
+            <div class="card stat-card"><span style="font-size:11px; color:var(--text-muted);">ACTIVE SUBS</span><span class="value" id="active-subs">0</span></div>
+            <div class="card stat-card"><span style="font-size:11px; color:var(--text-muted);">ANNUAL ESTIMATE</span><span class="value" id="annual-spend">₪0.00</span></div>
+            <div class="card stat-card"><span style="font-size:11px; color:var(--text-muted);">CURRENCY</span><span class="value" id="cur-mode" style="color:var(--accent-pink)">₪</span></div>
 
+            <div class="card chart-main"><canvas id="mainChart"></canvas></div>
+            <div class="card chart-side"><canvas id="distChart"></canvas></div>
+
+            <div class="card chart-main" style="grid-column: span 3; display: flex; flex-direction: column; gap: 10px;">
+                <h3 style="margin:0; font-size: 14px; color: var(--accent-teal);">💡 SMART INSIGHTS</h3>
+                <div id="insights-content" style="font-size: 16px; line-height: 1.5;">Analyzing your subscriptions...</div>
+            </div>
+            <div class="card chart-side"><canvas id="catChart"></canvas></div>
+
+            <div class="card wide-card" id="subscriptions-section">
+                <h3>Manage Subscriptions</h3>
+                <div class="add-sub-row">
+                    <input type="text" id="dashNameIn" placeholder="Service Name">
+                    <input type="text" id="dashPriceIn" placeholder="Price">
+                    <select id="dashCatIn">
+                        <option value="Streaming">Streaming</option>
+                        <option value="AI Tools">AI Tools</option>
+                        <option value="Software">Software</option>
+                        <option value="Hosting">Hosting</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <input type="number" id="dashTrialIn" placeholder="Trial days">
+                    <button id="dashSaveBtn" class="btn-add">+ Add Sub</button>
+                </div>
                 <table>
-                    <thead><tr><th>Service</th><th>Price</th><th>Status</th><th>Added Date</th><th>Action</th></tr></thead>
+                    <thead><tr><th>Service</th><th>Category</th><th>Price</th><th>Trial</th><th>Date</th><th>Action</th></tr></thead>
                     <tbody id="subs-table-body"></tbody>
                 </table>
             </div>
