@@ -1,67 +1,65 @@
-let isDismissed = false; // משתנה שמונע מההתראה לחזור אחרי שטיפלנו בה
+let isDismissed = false; 
 
 function scan() {
-    // אם כבר סגרנו את ההתראה או שמרנו, או שהיא כבר מוצגת - אל תעשה כלום
     if (isDismissed || document.getElementById('subsentry-alert')) return;
-
-    console.log("SubSentry: Scanning page...");
     const bodyText = document.body.innerText.toLowerCase();
     const priceRegex = /([$₪£€])\s?(\d+(?:\.\d{2})?)/;
     const match = bodyText.match(priceRegex);
-
-    if (match) {
-        console.log("🎯 SubSentry found price:", match[0]);
-        createAlert(match[0]);
-    }
+    if (match) createAlert(match[0]);
 }
 
 function createAlert(price) {
     const alertDiv = document.createElement('div');
     alertDiv.id = 'subsentry-alert';
     
-    // עיצוב החלונית
+    // עיצוב הבועה בסטייל Dark Premium
     Object.assign(alertDiv.style, {
         position: 'fixed', top: '20px', right: '20px', zIndex: '999999',
-        backgroundColor: 'white', padding: '16px', borderRadius: '12px',
-        boxShadow: '0 10px 25px rgba(0,0,0,0.2)', border: '1px solid #e5e7eb',
-        fontFamily: 'sans-serif', width: '300px', display: 'flex', flexDirection: 'column', gap: '12px'
+        backgroundColor: '#1e293b', color: '#f8fafc', padding: '20px', 
+        borderRadius: '16px', border: '1px solid #334155',
+        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.5)',
+        fontFamily: "'Inter', sans-serif", width: '300px',
+        display: 'flex', flexDirection: 'column', gap: '15px'
     });
 
-    // שורת כותרת עם כפתור סגירה (X)
+    // Header עם האייקון
     const header = document.createElement('div');
-    header.style.display = 'flex';
-    header.style.justifyContent = 'space-between';
-    header.style.alignItems = 'center';
-
-    const title = document.createElement('div');
-    title.textContent = "🛡️ Track Subscription?";
-    title.style.fontWeight = "bold";
-    title.style.fontSize = "15px";
-
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = "✕";
-    closeBtn.style.cssText = "background:none; border:none; color:#9ca3af; cursor:pointer; font-size:18px; padding:0 5px;";
-    closeBtn.onclick = () => {
-        isDismissed = true; // מעכשיו התוסף לא יקפוץ שוב בדף הזה
-        alertDiv.remove();
-    };
-
-    header.appendChild(title);
-    header.appendChild(closeBtn);
+    header.style.cssText = "display:flex; justify-content:space-between; align-items:center;";
+    header.innerHTML = `
+        <div style="display:flex; align-items:center; gap:8px;">
+            <img src="${chrome.runtime.getURL('icon.png')}" style="width:20px; height:20px; border-radius:4px;">
+            <span style="font-weight:800; color:#8b5cf6; font-size:14px;">SubSentry</span>
+        </div>
+        <div style="display:flex; gap:10px;">
+            <button id="alert-dash" style="background:#334155; border:1px solid #475569; color:white; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:12px;">📊</button>
+            <button id="alert-close" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:16px;">✕</button>
+        </div>
+    `;
 
     const info = document.createElement('div');
-    info.textContent = `Price detected: ${price}`;
-    info.style.fontSize = "13px";
-    info.style.color = "#4b5563";
+    info.innerHTML = `
+        <div style="font-size:12px; color:#94a3b8; text-transform:uppercase; letter-spacing:1px; font-weight:700;">Price Detected</div>
+        <div style="font-size:24px; font-weight:800; color:#06b6d4; margin-top:4px;">${price}</div>
+    `;
 
     const input = document.createElement('input');
     input.placeholder = "Trial days? (Optional)";
     input.type = "number";
-    input.style.cssText = "padding:8px; border:1px solid #d1d5db; border-radius:6px; font-size:13px;";
+    input.style.cssText = "background:#0f172a; border:1px solid #334155; border-radius:8px; padding:10px; color:white; font-size:13px;";
 
     const btn = document.createElement('button');
     btn.textContent = "Track & Save";
-    btn.style.cssText = "background:#4F46E5; color:white; border:none; padding:10px; border-radius:8px; cursor:pointer; font-weight:bold; font-size:14px;";
+    btn.style.cssText = "background:linear-gradient(135deg, #8b5cf6, #d946ef); color:white; border:none; padding:12px; border-radius:10px; cursor:pointer; font-weight:800; box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);";
+
+    // לוגיקה
+    alertDiv.appendChild(header);
+    alertDiv.appendChild(info);
+    alertDiv.appendChild(input);
+    alertDiv.appendChild(btn);
+    document.body.appendChild(alertDiv);
+
+    document.getElementById('alert-dash').onclick = () => chrome.runtime.sendMessage({ action: "openDashboard" });
+    document.getElementById('alert-close').onclick = () => { isDismissed = true; alertDiv.remove(); };
 
     btn.onclick = () => {
         const service = document.title.split('|')[0].trim();
@@ -70,24 +68,11 @@ function createAlert(price) {
                 service, price, trialDays: input.value, date: new Date().toLocaleDateString(), url: window.location.href 
             }];
             chrome.storage.local.set({ subscriptions: newList }, () => {
-                if (input.value > 0) {
-                    chrome.runtime.sendMessage({ action: "setAlarm", service, days: input.value });
-                }
-                isDismissed = true; // הצלחה! אל תציג שוב
-                alertDiv.textContent = "✅ Saved!";
-                alertDiv.style.textAlign = "center";
-                alertDiv.style.fontWeight = "bold";
-                alertDiv.style.color = "#059669";
+                if (input.value > 0) chrome.runtime.sendMessage({ action: "setAlarm", service, days: input.value });
+                alertDiv.innerHTML = '<div style="text-align:center; padding:10px; color:#10b981; font-weight:bold;">🛡️ Subscription Guarded!</div>';
                 setTimeout(() => alertDiv.remove(), 2000);
             });
         });
     };
-
-    alertDiv.appendChild(header);
-    alertDiv.appendChild(info);
-    alertDiv.appendChild(input);
-    alertDiv.appendChild(btn);
-    document.body.appendChild(alertDiv);
 }
-
 setInterval(scan, 3000);

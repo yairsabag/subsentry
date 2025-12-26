@@ -3,56 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { width: 350px; font-family: sans-serif; padding: 15px; background: #f9fafb; }
-        .header { display: flex; justify-content: space-between; align-items: center; }
-        h2 { color: #4F46E5; font-size: 18px; margin: 0; }
-        #addBtn { background: #4F46E5; color: white; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-size: 18px; }
-        
-        /* עיצוב הטופס הידני */
-        #manualForm { display: none; margin-top: 15px; background: white; padding: 10px; border-radius: 8px; border: 1px solid #ddd; }
-        #manualForm input { width: 90%; padding: 8px; margin-bottom: 8px; border: 1px solid #ddd; border-radius: 4px; }
-        
-        /* עיצוב רשימת המנויים */
-        .sub-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; background: white; border-radius: 8px; margin-top: 8px; box-shadow: 0 1px 2px rgba(0,0,0,0.05); }
-        .total { margin-top: 15px; font-weight: bold; border-top: 2px solid #4F46E5; padding-top: 10px; color: #111; }
-        
-        /* כפתורי פעולה */
-        .btn-small { border: none; padding: 4px 8px; border-radius: 4px; cursor: pointer; font-size: 10px; }
-        
-        /* כפתור ה-Dashboard החדש */
-        #openDashboard { 
-            width: 100%; 
-            background: white; 
-            color: #4F46E5; 
-            border: 1px solid #4F46E5; 
-            padding: 10px; 
-            border-radius: 8px; 
-            margin-top: 12px; 
-            cursor: pointer; 
-            font-weight: bold;
-            transition: background 0.2s;
-        }
-        #openDashboard:hover { background: #f5f3ff; }
+        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8; --accent-purple: #8b5cf6; --accent-teal: #06b6d4; }
+        body { width: 350px; font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        .logo-group { display: flex; align-items: center; gap: 10px; }
+        .logo-group img { width: 24px; height: 24px; border-radius: 6px; }
+        .logo-group h2 { font-size: 18px; margin: 0; color: var(--accent-purple); font-weight: 800; }
+        .icon-btn { background: var(--card-bg); border: 1px solid #334155; color: white; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
+        .icon-btn:hover { border-color: var(--accent-purple); }
+        .summary-card { background: linear-gradient(135deg, var(--card-bg) 0%, #1e1b4b 100%); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 20px; text-align: center; }
+        .summary-card .value { font-size: 24px; font-weight: 800; color: var(--accent-teal); display: block; margin-top: 5px; }
+        #manualForm { display: none; background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--accent-purple); }
+        input { width: 100%; background: #0f172a; border: 1px solid #334155; padding: 10px; border-radius: 8px; color: white; margin-bottom: 10px; box-sizing: border-box; }
+        #saveManual { width: 100%; background: var(--accent-purple); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        .sub-item { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #334155; }
+        .sub-price { color: var(--accent-teal); font-weight: 700; }
+        #openDashboard { width: 100%; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple); padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
+        #openDashboard:hover { background: var(--accent-purple); color: white; }
     </style>
 </head>
 <body>
     <div class="header">
-        <h2>🛡️ SubSentry</h2>
-        <button id="addBtn">+</button>
+        <div class="logo-group">
+            <img src="icon.png" alt="Logo">
+            <h2>SubSentry</h2>
+        </div>
+        <div style="display: flex; gap: 8px;">
+            <button id="addBtn" class="icon-btn">+</button>
+            <button id="settingsBtn" class="icon-btn">📊</button>
+        </div>
     </div>
-
+    <div class="summary-card">
+        <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Total Monthly Spend</span>
+        <span id="totalAmount" class="value">$0.00</span>
+    </div>
     <div id="manualForm">
-        <input type="text" id="nameIn" placeholder="Service Name (e.g. Netflix)">
-        <input type="text" id="priceIn" placeholder="Price (e.g. $14.99)">
-        <input type="number" id="trialIn" placeholder="Trial days? (Optional)">
-        <button id="saveManual" style="width:100%; background:#059669; color:white; border:none; padding:8px; border-radius:4px; cursor:pointer;">Save Subscription</button>
+        <input type="text" id="nameIn" placeholder="Service Name">
+        <input type="text" id="priceIn" placeholder="Price ($)">
+        <input type="number" id="trialIn" placeholder="Trial days?">
+        <button id="saveManual">Add Subscription</button>
     </div>
-
     <div id="subList"></div>
-    <div class="total" id="totalAmount">Total: $0.00/mo</div>
-
-    <button id="openDashboard">📊 Open Full Dashboard</button>
-
+    <button id="openDashboard">GO TO PRO DASHBOARD</button>
     <script src="popup.js"></script>
 </body>
 </html>
