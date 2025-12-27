@@ -3,48 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        :root { --bg-color: #0f172a; --card-bg: #1e293b; --text-main: #f8fafc; --text-muted: #94a3b8; --accent-purple: #8b5cf6; --accent-teal: #06b6d4; }
-        body { width: 350px; font-family: 'Inter', sans-serif; background: var(--bg-color); color: var(--text-main); margin: 0; padding: 20px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        .logo-group { display: flex; align-items: center; gap: 10px; }
-        .logo-group img { width: 24px; height: 24px; border-radius: 6px; }
-        .logo-group h2 { font-size: 18px; margin: 0; color: var(--accent-purple); font-weight: 800; }
-        .icon-btn { background: var(--card-bg); border: 1px solid #334155; color: white; width: 32px; height: 32px; border-radius: 10px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: 0.3s; }
-        .icon-btn:hover { border-color: var(--accent-purple); }
-        .summary-card { background: linear-gradient(135deg, var(--card-bg) 0%, #1e1b4b 100%); padding: 15px; border-radius: 16px; border: 1px solid #334155; margin-bottom: 20px; text-align: center; }
-        .summary-card .value { font-size: 24px; font-weight: 800; color: var(--accent-teal); display: block; margin-top: 5px; }
-        #manualForm { display: none; background: var(--card-bg); padding: 15px; border-radius: 16px; margin-bottom: 20px; border: 1px solid var(--accent-purple); }
-        input { width: 100%; background: #0f172a; border: 1px solid #334155; padding: 10px; border-radius: 8px; color: white; margin-bottom: 10px; box-sizing: border-box; }
-        #saveManual { width: 100%; background: var(--accent-purple); color: white; border: none; padding: 10px; border-radius: 8px; font-weight: bold; cursor: pointer; }
-        .sub-item { display: flex; justify-content: space-between; align-items: center; background: var(--card-bg); padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid #334155; }
-        .sub-price { color: var(--accent-teal); font-weight: 700; }
-        #openDashboard { width: 100%; background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); border: 1px solid var(--accent-purple); padding: 12px; border-radius: 12px; font-weight: bold; cursor: pointer; margin-top: 10px; transition: 0.3s; }
-        #openDashboard:hover { background: var(--accent-purple); color: white; }
+        body { width: 350px; background: #1e293b; color: white; font-family: 'Inter', sans-serif; padding: 15px; margin: 0; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        .logo-section { display: flex; align-items: center; gap: 8px; }
+        .logo-section img { width: 24px; height: 24px; }
+        .icon-btn { background: #334155; border: none; cursor: pointer; padding: 5px; border-radius: 6px; display: flex; align-items: center; }
+        
+        .total-box { background: #0f172a; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; border: 1px solid #334155; }
+        .price-text { color: #06b6d4; font-size: 28px; font-weight: 800; margin-top: 5px; }
+        
+        .sub-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
+        .sub-item { background: #334155; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
+        
+        .btn-dash { 
+            background: #4f46e5; color: white; border: none; padding: 12px; width: 100%; 
+            border-radius: 10px; cursor: pointer; font-weight: 700; text-transform: uppercase;
+        }
     </style>
 </head>
 <body>
     <div class="header">
-        <div class="logo-group">
-            <img src="icon.png" alt="Logo">
-            <h2>SubSentry</h2>
+        <div class="logo-section">
+            <img src="icon.png">
+            <span style="font-weight:800; color:#a78bfa;">SubSentry</span>
         </div>
-        <div style="display: flex; gap: 8px;">
-            <button id="addBtn" class="icon-btn">+</button>
-            <button id="settingsBtn" class="icon-btn">📊</button>
+        <button id="icon-dash-btn" class="icon-btn">📊</button>
+    </div>
+
+    <div class="total-box">
+        <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TOTAL MONTHLY SPEND</div>
+        <div id="popup-total" class="price-text">$0.00</div>
+    </div>
+
+    <div class="sub-list" id="popup-subs">
         </div>
-    </div>
-    <div class="summary-card">
-        <span style="font-size: 12px; color: var(--text-muted); text-transform: uppercase;">Total Monthly Spend</span>
-        <span id="totalAmount" class="value">$0.00</span>
-    </div>
-    <div id="manualForm">
-        <input type="text" id="nameIn" placeholder="Service Name">
-        <input type="text" id="priceIn" placeholder="Price ($)">
-        <input type="number" id="trialIn" placeholder="Trial days?">
-        <button id="saveManual">Add Subscription</button>
-    </div>
-    <div id="subList"></div>
-    <button id="openDashboard">GO TO PRO DASHBOARD</button>
+
+    <button id="go-to-dash" class="btn-dash">Go to Pro Dashboard</button>
+
     <script src="popup.js"></script>
 </body>
 </html>

@@ -1,77 +1,44 @@
 document.addEventListener('DOMContentLoaded', function() {
-    const subList = document.getElementById('subList');
-    const totalAmount = document.getElementById('totalAmount');
-    const addBtn = document.getElementById('addBtn');
-    const settingsBtn = document.getElementById('settingsBtn');
-    const manualForm = document.getElementById('manualForm');
-    const openDashBtn = document.getElementById('openDashboard');
-
-    const openDash = () => chrome.runtime.sendMessage({ action: "openDashboard" });
-
-    settingsBtn.addEventListener('click', openDash);
-    openDashBtn.addEventListener('click', openDash);
-
-    addBtn.addEventListener('click', () => {
-        manualForm.style.display = manualForm.style.display === 'block' ? 'none' : 'block';
-    });
-
-    document.getElementById('saveManual').addEventListener('click', () => {
-        const service = document.getElementById('nameIn').value;
-        const price = document.getElementById('priceIn').value;
-        const trialDays = document.getElementById('trialIn').value;
-
-        if (service && price) {
-            chrome.storage.local.get({ subscriptions: [] }, (data) => {
-                const newList = [...data.subscriptions, { 
-                    service, price, trialDays, date: new Date().toLocaleDateString(), url: '' 
-                }];
-                chrome.storage.local.set({ subscriptions: newList }, () => {
-                    if (trialDays > 0) chrome.runtime.sendMessage({ action: "setAlarm", service, days: trialDays });
-                    // איפוס שדות ורענון
-                    document.getElementById('nameIn').value = '';
-                    document.getElementById('priceIn').value = '';
-                    document.getElementById('trialIn').value = '';
-                    manualForm.style.display = 'none';
-                    render();
-                });
-            });
-        }
-    });
-
-    function render() {
-        chrome.storage.local.get({ subscriptions: [] }, (data) => {
-            let total = 0;
-            subList.innerHTML = '';
-            
-            if (data.subscriptions.length === 0) {
-                subList.innerHTML = '<p style="text-align:center; color:#94a3b8; font-size:12px;">No subscriptions yet.</p>';
-                totalAmount.innerText = '$0.00';
-                return;
-            }
-
-            data.subscriptions.forEach((sub, i) => {
-                const div = document.createElement('div');
-                div.className = 'sub-item';
-                div.innerHTML = `
-                    <div>
-                        <div class="sub-name">${sub.service}</div>
-                        <div class="sub-price">${sub.price}</div>
-                    </div>
-                    <button class="del-btn">Remove</button>
-                `;
-                subList.appendChild(div);
-
-                div.querySelector('.del-btn').onclick = () => {
-                    const newList = data.subscriptions.filter((_, index) => index !== i);
-                    chrome.storage.local.set({ subscriptions: newList }, render);
-                };
-
-                const p = parseFloat(sub.price.replace(/[^0-9.]/g, ''));
-                if (!isNaN(p)) total += p;
-            });
-            totalAmount.innerText = `$${total.toFixed(2)}`;
+    // פונקציה לפתיחת הדשבורד
+    const openDashboard = () => {
+        chrome.tabs.create({
+            url: chrome.runtime.getURL('dashboard.html')
         });
-    }
+    };
 
-    render();
+    // חיבור הכפתור הגדול
+    const mainBtn = document.getElementById('go-to-dash');
+    if (mainBtn) mainBtn.addEventListener('click', openDashboard);
+
+    // חיבור האייקון הקטן בפינה
+    const iconBtn = document.getElementById('icon-dash-btn');
+    if (iconBtn) iconBtn.addEventListener('click', openDashboard);
+
+    // טעינת נתונים מהירה לתצוגה בתוך ה-Popup
+    chrome.storage.local.get({ subscriptions: [], baseCurrency: '$' }, (data) => {
+        const totalEl = document.getElementById('popup-total');
+        const listEl = document.getElementById('popup-subs');
+        
+        let total = 0;
+        listEl.innerHTML = '';
+
+        data.subscriptions.forEach(sub => {
+            // חישוב סכום (בצורה פשוטה לתצוגה)
+            const price = parseFloat(sub.price.replace(/[^\d.]/g, '')) || 0;
+            total += price;
+
+            // יצירת שורה ברשימה
+            const item = document.createElement('div');
+            item.className = 'sub-item';
+            item.innerHTML = `
+                <div>
+                    <div style="font-size:13px; font-weight:700;">${sub.service}</div>
+                    <div style="font-size:11px; color:#06b6d4;">${sub.price}</div>
+                </div>
+            `;
+            listEl.appendChild(item);
+        });
+
+        totalEl.textContent = `${data.baseCurrency}${total.toFixed(2)}`;
+    });
 });

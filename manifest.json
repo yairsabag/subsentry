@@ -1,14 +1,15 @@
 {
   "manifest_version": 3,
-  "name": "SubSentry",
-  "version": "1.5",
-  "description": "Smart subscription and trial tracker for your browser.",
-  "permissions": ["storage", "alarms", "notifications"],
+  "name": "SubSentry: Subscription Track",
+  "version": "1.0",
+  "description": "Automatically track and save on your subscriptions with AI insights.",
   "icons": {
     "16": "icon.png",
+    "32": "icon.png",
     "48": "icon.png",
     "128": "icon.png"
   },
+  "permissions": ["storage", "alarms", "notifications"],
   "background": {
     "service_worker": "background.js"
   },
@@ -19,6 +20,16 @@
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
+      "exclude_matches": [
+        "*://*.google.com/*",
+        "*://*.google.co.il/*",
+        "*://*.bing.com/*",
+        "*://*.yahoo.com/*",
+        "*://*.duckduckgo.com/*",
+        "*://*.facebook.com/*",
+        "*://*.twitter.com/*",
+        "*://*.instagram.com/*"
+      ],
       "js": ["content.js"]
     }
   ],
