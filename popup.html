@@ -3,43 +3,107 @@
 <head>
     <meta charset="UTF-8">
     <style>
-        body { width: 350px; background: #1e293b; color: white; font-family: 'Inter', sans-serif; padding: 15px; margin: 0; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+        :root { --bg: #1e293b; --card: #0f172a; --accent: #4f46e5; --text: #f8fafc; --muted: #94a3b8; }
+        body { width: 350px; background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; padding: 0; margin: 0; overflow: hidden; }
+        .container { padding: 20px; }
+        
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding: 15px 20px; border-bottom: 1px solid #334155; }
         .logo-section { display: flex; align-items: center; gap: 8px; }
         .logo-section img { width: 24px; height: 24px; }
-        .icon-btn { background: #334155; border: none; cursor: pointer; padding: 5px; border-radius: 6px; display: flex; align-items: center; }
+        .logo-section span { font-weight: 800; color: #a78bfa; font-size: 18px; }
+
+        /* תצוגת אימות (Auth View) */
+        .auth-view { text-align: center; animation: fadeIn 0.3s ease; }
+        .welcome-icon { font-size: 50px; margin-bottom: 10px; display: block; }
+        h2 { font-size: 24px; margin: 0 0 10px 0; }
+        .subtitle { color: var(--muted); font-size: 13px; margin-bottom: 25px; line-height: 1.5; }
         
-        .total-box { background: #0f172a; padding: 20px; border-radius: 12px; text-align: center; margin-bottom: 15px; border: 1px solid #334155; }
-        .price-text { color: #06b6d4; font-size: 28px; font-weight: 800; margin-top: 5px; }
+        .form-group { text-align: left; margin-bottom: 15px; }
+        label { display: block; font-size: 12px; font-weight: 600; margin-bottom: 6px; color: var(--muted); }
+        input { width: 100%; background: var(--card); border: 1px solid #334155; color: white; padding: 12px; border-radius: 8px; box-sizing: border-box; outline: none; transition: border 0.2s; }
+        input:focus { border-color: var(--accent); }
         
-        .sub-list { max-height: 250px; overflow-y: auto; margin-bottom: 15px; }
-        .sub-item { background: #334155; padding: 10px; border-radius: 8px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; }
-        
-        .btn-dash { 
-            background: #4f46e5; color: white; border: none; padding: 12px; width: 100%; 
-            border-radius: 10px; cursor: pointer; font-weight: 700; text-transform: uppercase;
+        .btn-primary { 
+            background: var(--accent); color: white; border: none; padding: 14px; width: 100%; 
+            border-radius: 10px; cursor: pointer; font-weight: 700; text-transform: uppercase; margin-top: 10px;
         }
+        
+        .divider { display: flex; align-items: center; color: #475569; font-size: 11px; margin: 20px 0; text-transform: uppercase; }
+        .divider::before, .divider::after { content: ""; flex: 1; height: 1px; background: #334155; margin: 0 10px; }
+        
+        .google-btn { 
+            background: var(--card); border: 1px solid #334155; color: white; display: flex; 
+            align-items: center; justify-content: center; gap: 10px; padding: 12px; 
+            border-radius: 8px; width: 100%; cursor: pointer; font-size: 14px; font-weight: 600;
+        }
+        .google-btn img { width: 18px; }
+
+        .switch-mode { margin-top: 20px; font-size: 13px; color: var(--muted); }
+        .switch-mode b { color: #8b5cf6; cursor: pointer; text-decoration: underline; }
+
+        /* תצוגת נתונים (Stats View) */
+        .total-box { background: var(--card); padding: 25px; border-radius: 16px; text-align: center; margin-bottom: 20px; border: 1px solid #334155; }
+        .price-text { color: #06b6d4; font-size: 36px; font-weight: 800; margin-top: 8px; }
+        .sub-list { max-height: 150px; overflow-y: auto; margin-bottom: 20px; }
+        .sub-item { background: #334155; padding: 12px; border-radius: 10px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 13px; }
+
+        .hidden { display: none; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body>
     <div class="header">
         <div class="logo-section">
             <img src="icon.png">
-            <span style="font-weight:800; color:#a78bfa;">SubSentry</span>
+            <span>SubSentry</span>
         </div>
-        <button id="icon-dash-btn" class="icon-btn">📊</button>
+        <button id="icon-dash-btn" style="background:none; border:none; cursor:pointer; font-size:18px; color: #94a3b8;">📊</button>
     </div>
 
-    <div class="total-box">
-        <div style="font-size: 11px; color: #94a3b8; font-weight: 700;">TOTAL MONTHLY SPEND</div>
-        <div id="popup-total" class="price-text">$0.00</div>
-    </div>
+    <div class="container">
+        <div id="view-auth" class="auth-view hidden">
+            <span class="welcome-icon">👋</span>
+            <h2 id="auth-title">Welcome!</h2>
+            <p id="auth-subtitle" class="subtitle">Log in to sync and track your subscriptions across devices.</p>
+            
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" id="email-in" placeholder="name@company.com">
+            </div>
+            
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" id="pass-in" placeholder="••••••••">
+            </div>
+            
+            <button id="btn-auth-submit" class="btn-primary">Login</button>
+            
+            <div class="divider">Or continue with</div>
+            <button class="google-btn" id="btn-google">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg"> Google
+            </button>
 
-    <div class="sub-list" id="popup-subs">
+            <div class="switch-mode" id="mode-text">
+                Don't have an account? <b id="btn-switch">Register</b>
+            </div>
         </div>
 
-    <button id="go-to-dash" class="btn-dash">Go to Pro Dashboard</button>
+        <div id="view-stats" class="hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <div style="font-weight: 700; color: #a78bfa;">Hello, <span id="user-name">User</span>!</div>
+                <button id="btn-logout" style="background:none; border:none; color:#94a3b8; cursor:pointer; font-size:12px; text-decoration:underline;">Logout</button>
+            </div>
+            <div class="total-box">
+                <div style="font-size: 11px; color: var(--muted); font-weight: 700;">TOTAL MONTHLY SPEND</div>
+                <div id="popup-total" class="price-text">$0.00</div>
+            </div>
+            <div class="sub-list" id="popup-subs"></div>
+            <button id="go-to-dash" class="btn-primary">Go to Pro Dashboard</button>
+        </div>
+    </div>
 
+    <script src="firebase-app-compat.js"></script>
+    <script src="firebase-auth-compat.js"></script>
     <script src="popup.js"></script>
 </body>
 </html>

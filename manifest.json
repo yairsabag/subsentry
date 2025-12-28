@@ -9,7 +9,7 @@
     "48": "icon.png",
     "128": "icon.png"
   },
-  "permissions": ["storage", "alarms", "notifications"],
+  "permissions": ["storage", "alarms", "notifications", "identity", "tabs"],
   "background": {
     "service_worker": "background.js"
   },
@@ -17,25 +17,25 @@
     "default_popup": "popup.html",
     "default_icon": "icon.png"
   },
+  "oauth2": {
+    "client_id": "328482516042-hgm1fl3ung3av88jgr0qc8k1j2fnc3ms.apps.googleusercontent.com",
+    "scopes": ["email", "profile", "openid"]
+  },
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
-      "exclude_matches": [
-        "*://*.google.com/*",
-        "*://*.google.co.il/*",
-        "*://*.bing.com/*",
-        "*://*.yahoo.com/*",
-        "*://*.duckduckgo.com/*",
-        "*://*.facebook.com/*",
-        "*://*.twitter.com/*",
-        "*://*.instagram.com/*"
-      ],
       "js": ["content.js"]
     }
   ],
   "web_accessible_resources": [
     {
-      "resources": ["icon.png", "manual.png"],
+      "resources": [
+        "icon.png", 
+        "manual.png", 
+        "dashboard.html", 
+        "firebase-app-compat.js", 
+        "firebase-auth-compat.js"
+      ],
       "matches": ["<all_urls>"]
     }
   ]
